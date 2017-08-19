@@ -16,8 +16,8 @@
 
 <template name="search">
     <form>
-        <input type="text" name="number" />
-        <input type="submit" value="Search">
+        <input type="number" name="number" />
+        <input type="submit" value="Search by NPI">
     </form>
 </template>
 
@@ -28,10 +28,7 @@
     <h3>Name: {{firstname}} {{lastname}}, {{credential}} </h3>
             <ul></ul>
                 <li>
-                    City: {{city}}
-                </li>
-                <li>
-                    State:  {{state}}
+                    Location: {{city}}, {{state}}
                 </li>
     <br />
                 <li>

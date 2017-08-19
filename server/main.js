@@ -16,6 +16,7 @@ Meteor.methods({
                 }
             }).data
           // console.dir(result)
+        Meteor.call('ClearResults')
         Results.insert({ result })// inserts new results into db for display.
     },
     ClearResults: function () {
