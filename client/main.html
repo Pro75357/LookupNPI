@@ -1,0 +1,52 @@
+<head>
+  <title>LookupNPI</title>
+</head>
+
+<body>
+  <h1>Welcome to NPI Lookup tool!</h1>
+    <p>
+        This will use the API from the <a href="https://npiregistry.cms.hhs.gov/">NPPES Registry</a> to find publically available provider information
+    </p>
+
+  {{> search}}
+
+      {{> results}}
+  
+</body>
+
+<template name="search">
+    <form>
+        <input type="text" name="number" />
+        <input type="submit" value="Search">
+    </form>
+</template>
+
+<template name="results">
+    {{#if resultPresent}}
+
+    <h2> Result: </h2>
+    <h3>Name: {{firstname}} {{lastname}}, {{credential}} </h3>
+            <ul></ul>
+                <li>
+                    City: {{city}}
+                </li>
+                <li>
+                    State:  {{state}}
+                </li>
+    <br />
+                <li>
+                    Description(s): 
+                    <ul>
+                        {{#each taxonomies}}
+                        <li>
+                            {{desc}}
+                        </li>
+                        {{/each}}
+                    </ul>
+                </li>
+    {{else}}
+    Please enter an NPI to start the search
+    {{/if}}
+
+
+</template>
