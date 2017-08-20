@@ -7,24 +7,45 @@
     <p>
         This will use the API from the <a href="https://npiregistry.cms.hhs.gov/">NPPES Registry</a> to find publically available provider information
     </p>
-
-  {{> search}}
-
-      {{> results}}
+{{> searchSelect}}
+    <br />
+    <br />
+    {{#if searchType}}
+        {{> nameSearch}}
+    {{else}}
+        {{> NPIsearch}}
+    {{/if}}
   
 </body>
 
-<template name="search">
+<template name="searchSelect">
+        Select search type: <br />
+            <button id="NPIbutton" value="NPI">NPI</button>
+            <button id="namebutton" value="name">Name</button>
+
+</template>
+
+<template name ="nameSearch">
+    <form>
+        First Name: <input type="text" name="firstName" />
+        Last Name: <input type="text" name="lastName" />
+        <input type="submit" value="Search by Name">
+    </form>
+
+</template>
+
+<template name="NPIsearch">
     <form>
         <input type="number" name="number" />
         <input type="submit" value="Search by NPI">
     </form>
+    {{> NPIresults}}
 </template>
 
-<template name="results">
+<template name="NPIresults">
     {{#if resultPresent}}
 
-    <h2> Result: </h2>
+    <h2> Result: {{NPI}}</h2>
     <h3>Name: {{firstname}} {{lastname}}, {{credential}} </h3>
             <ul></ul>
                 <li>
