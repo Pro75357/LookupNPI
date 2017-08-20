@@ -9,17 +9,51 @@ Meteor.startup(() => {
 
 Meteor.methods({
     NumberSearch: function (number) {
-        result = HTTP.call(
+        npiresult = HTTP.call(
             'GET', 'https://npiregistry.cms.hhs.gov/api', {
                 params: {
                     'number': number
                 }
             }).data
           // console.dir(result)
-        Meteor.call('ClearResults')
-        Results.insert({ result })// inserts new results into db for display.
+        Meteor.call('clearNPIResults')
+        Results.insert({
+            type: 'npi',
+            result: npiresult
+        })// inserts new results into db for display.
     },
-    ClearResults: function () {
-        Results.remove({}) // Remove any prior results. this is run on browser startup.
+
+
+    nameSearch: function (first, last) {
+        nameresult = HTTP.call(
+            'GET', 'https://npiregistry.cms.hhs.gov/api', {
+                params: {
+                    'first_name': first,
+                    'last_name': last
+                }
+            }).data
+        Meteor.call('clearNameResults')
+        console.dir(nameresult)
+        Results.insert({
+            type: 'name',
+            result: nameresult
+        })
+        
     },
+
+
+    clearNPIResults: function () {
+        console.log('npi result supposed to be cleared')
+        Results.remove({type: 'npi'}) // Remove any prior NPI results. this is run on browser startup.
+    },
+    clearNameResults: function () {
+        Results.remove({type: 'name'}) // Remove any prior Name results. this is run on browser startup.
+    },
+    clearResults: function () {
+        Results.remove({})
+    },
+
+    NpiSearchFromClick: function (number) {
+        console.log(number)
+    }
 })

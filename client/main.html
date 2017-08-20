@@ -10,7 +10,7 @@
 {{> searchSelect}}
     <br />
     <br />
-    {{#if searchType}}
+    {{#if searchTypeName}}
         {{> nameSearch}}
     {{else}}
         {{> NPIsearch}}
@@ -27,11 +27,11 @@
 
 <template name ="nameSearch">
     <form>
-        First Name: <input type="text" name="firstName" />
-        Last Name: <input type="text" name="lastName" />
+        First Name: <input type="text" name="first" />
+        Last Name: <input type="text" name="last" />
         <input type="submit" value="Search by Name">
     </form>
-
+    {{> nameResults}}
 </template>
 
 <template name="NPIsearch">
@@ -43,10 +43,11 @@
 </template>
 
 <template name="NPIresults">
-    {{#if resultPresent}}
+    {{#if NPIresultPresent}}
 
     <h2> Result: {{NPI}}</h2>
     <h3>Name: {{firstname}} {{lastname}}, {{credential}} </h3>
+    &nbsp; Last updated: {{lastUpdated}}
             <ul></ul>
                 <li>
                     Location: {{city}}, {{state}}
@@ -54,8 +55,7 @@
     <br />
                 <li>
                     Description(s): 
-                    <ul>
-                        {{#each taxonomies}}
+                    <ul> {{#each taxonomies}}
                         <li>
                             {{desc}}
                         </li>
@@ -65,6 +65,39 @@
     {{else}}
     Please enter an NPI to start the search
     {{/if}}
+</template>
 
+<template name="nameResults">
+    {{#if nameResultPresent}}
+        <h2>Results for [{{firstName}} {{lastName}}]: </h2>
+        <table class="table table-bordered table-striped table-hover">
+            <tr>
+                <th>NPI</th>
+                <th>First Name</th>
+                <th>LastName</th>
+                <th>Cred</th>
+                <th>location</th>
+                <th>Specialty(ies)</th>
+
+            </tr>
+            {{#each nameResult}}
+                <tr class="resultRow">
+                    <td>{{number}}</td>
+                    <td>{{basic.first_name}}</td>
+                    <td>{{basic.last_name}}</td>
+                    <td>{{basic.credential}}</td>
+                    <td>{{addresses.[0].state}} - {{addresses.[0].city}}</td>
+                    <td>
+                        <ul>
+                            {{#each taxonomies}} <li> {{desc}}</li>{{/each}}
+                        </ul>
+                    </td>
+
+                </tr>
+            {{/each}}
+        </table>
+    {{else}}
+        Please enter a name to start search!
+    {{/if}}
 
 </template>
