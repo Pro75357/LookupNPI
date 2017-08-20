@@ -3,19 +3,24 @@
 </head>
 
 <body>
-  <h1>Welcome to NPI Lookup tool!</h1>
-    <p>
-        This will use the API from the <a href="https://npiregistry.cms.hhs.gov/">NPPES Registry</a> to find publically available provider information
-    </p>
-{{> searchSelect}}
-    <br />
-    <br />
-    {{#if searchTypeName}}
+    <div class="jumbotron" style="background-color:darkblue">
+        <div class="container text-white">
+            <h1 style="color:white">Easy NPI Lookup tool</h1>
+            <small style="color:white">This simple Meteor tool uses the API from the <a href="https://npiregistry.cms.hhs.gov/">NPPES Registry</a> to find publically available provider information</small><br />
+            <small style="color:white"> It is meant as an example of how to use the API in a meteor application</small><br />
+            <small style="color:white"> See the code on Github <a href="https://github.com/pro75357/lookupNPI">here</a></small>
+        </div>
+    </div>
+    <div class="container">
+        {{> searchSelect}}
+        <br />
+        <br />
+        {{#if searchTypeName}}
         {{> nameSearch}}
-    {{else}}
+        {{else}}
         {{> NPIsearch}}
-    {{/if}}
-  
+        {{/if}}
+    </div>
 </body>
 
 <template name="searchSelect">
@@ -70,7 +75,8 @@
 <template name="nameResults">
     {{#if nameResultPresent}}
         <h2>Results for [{{firstName}} {{lastName}}]: </h2>
-        <table class="table table-bordered table-striped table-hover">
+    <table class="table table-bordered table-hover">
+        <thead>
             <tr>
                 <th>NPI</th>
                 <th>First Name</th>
@@ -78,24 +84,25 @@
                 <th>Cred</th>
                 <th>location</th>
                 <th>Specialty(ies)</th>
-
             </tr>
-            {{#each nameResult}}
-                <tr class="resultRow">
-                    <td>{{number}}</td>
-                    <td>{{basic.first_name}}</td>
-                    <td>{{basic.last_name}}</td>
-                    <td>{{basic.credential}}</td>
-                    <td>{{addresses.[0].state}} - {{addresses.[0].city}}</td>
-                    <td>
-                        <ul>
-                            {{#each taxonomies}} <li> {{desc}}</li>{{/each}}
-                        </ul>
-                    </td>
+        </thead>
+        {{#each nameResult}}
+        <tr class="resultRow">
+            <td>{{number}}</td>
+            <td>{{basic.first_name}}</td>
+            <td>{{basic.last_name}}</td>
+            <td>{{basic.credential}}</td>
+            <td>{{addresses.[0].state}} - {{addresses.[0].city}}</td>
+            <td>
+                <ul class="list-group">
+                    {{#each taxonomies}}
+                    <li class="list-group-item"> {{desc}}</li>{{/each}}
+                </ul>
+            </td>
 
-                </tr>
-            {{/each}}
-        </table>
+        </tr>
+        {{/each}}
+    </table>
     {{else}}
         Please enter a name to start search!
     {{/if}}
